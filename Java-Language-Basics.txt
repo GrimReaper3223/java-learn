@@ -1,0 +1,599 @@
+-------------------------------------------------------------------------------------------------Inicio-------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+VISAO GERAL DOS FUNDAMENTOS EM JAVA:
+
+resumo sobre objetos:
+
+	Objetos contem estado e comportamento relacionados. Um objeto e a instancia de uma classe com todos os seus metodos(comportamento) e campos(estados - variaveis em outras linguagens).
+	Um teclado e um objeto. Seu sistema interno e seu campo, e suas teclas seu metodo (ou comportamento).
+	é louvavel o uso de metodos para modificar o estado atual de um objeto, aderindo-se entao ao encapsulamento.
+	
+resumo sobre classes:
+
+	Classes sao arquivos em java que contem todos os campos e metodos para a instanciacao de um objeto futuro.
+	Uma classe pode ser vista como um arquivo de configuracao para futuras instancias.
+	Ao instanciar um objeto, normalmente fazemos da seguinte forma: Tipo nomeDoObjeto = new Classe(parametro);
+	O nome do objeto necessita ser de um tipo, assim como num1 precisa de um tipo numerico (int ou qualquer outro).
+	é atribuido a esse objeto uma nova instancia da classe com parametros adicionais.
+	
+*****	edit.: metodos com modificadores "abstract" em classes sao desprovidos de implementacao concreta, contendo somente seus parametros, nome do metodo e tipo de retorno. metodos abstratos em classes so 
+	podem ser utilizados em subclasses que derivam da superclasse. na subclasse, o metodo deve ser chamado e passado uma implementacao concreta e unica.
+	para outra subclasse dessa superclasse com esse mesmo metodo abstrato, o metodo deve ser chamado e implementado de forma concreta e, novamente, unica. Ou seja, totalmente diferente da outra
+	subclasse.
+	isso permite que cada subclasse faca implementacoes concretas unicas em torno desse metodo.
+	
+resumo sobre heranças:
+
+	Heranças sao uma extensao de uma classe a outra. ao configurar uma classe com campos e metodos chamada 'classe1', voce pode configurar outra classe (classe2) e extender a classe1 a esta nova usando a 
+	palavra chave 'extends'.
+	isso serve para que a classe2, que recebera todas as configuracoes da classe1, possa focar em novas implementacoes, tirando a necessidade de reescrever o mesmo codigo em outras classes, evitando
+	assim,a dupllicaçao de codigo. Deve ser utilizado com cautela, ja que o codigo fonte da classe1 nao sera mostrado na classe2.
+	
+resumo sobre interfaces:
+
+	Interfaces sao arquivos que formalizam a implementacao de metodos e campos de todas as classes que a implementa. Interfaces contem metodos relacionados com corpos vazios (sem {...}), tendo somente o
+	modificador de acesso (public, protected...), seu modificador de instancia (static ou non-static), se tem retorno ou nao (void ou algum tipo de dado ou objeto) e seu nome;
+	Todos os metodos declarados na interface devem aparecer no codigo fonte da classe que a implementa.
+	Codificacao adicional na classe que implementa uma interface pode ser feita sem que precise alterar a interface. se um metodo ou outro nao for necessario a implementacao, designar esse metodo na
+	interface com o modificador "default", seguido de um corpo (bloco de execucao de instrucoes);
+	
+*****	edit.: metodos sem modificadores "default" em interfaces sao metodos abstratos. Isto e, metodos com corpos vazios e que obrigatoriamente necessitam de uma chamada na classe que implementa esta 
+	interface. 
+	metodos com o modificador "default" nao tem a obrigatoriedade de ser implementado pelas classes que implementam a interface e precisam conter instrucoes em seus corpos, ou seja, conter um bloco de 
+	codigo com instrucoes. Isto e util para futuras implementacoes de funcionalidades em interfaces sem a necessidade de classes que implementa interfaces precisarem tambem implementarem o metodo marcado
+	como "default", evitando assim grandes erros.
+	interfaces nao precisam obter um modificador "abstract", porque implicitamente ela ja e abstrata. 
+	se a interface nao contiver um modificador de acesso public, ela tera um modificador "package-private", que limita o seu acesso apenas as classes dentro do pacote onde esta a interface
+	
+resumo sobre pacotes:
+
+	Pacotes sao uma forma de organizar um projeto em diferentes pastas para evitar que arquivos nao relacionados se misturem, dificultando o entendimento do projeto e sua manutençao.
+	Geralmente, sao separados em outros pacotes diferente do pacote principal interfaces, APIs de GUIs ou TUIs, HTMLs, scripts, imagens, arquivos de textos comuns, etc.
+	
+
+NOMEANDO VARIAVEIS:
+
+resumo sobre variaveis:
+
+	Ha 4 tipos de variaveis: variaveis de instancia, variaveis de classe, variaveis locais e parametros;
+	
+		-variaveis de instancia: Nao contem a palavra chave 'static', o que faz dela uma variavel sem um valor corrente. cada instancia dessa variavel tera valor unico ao objeto que a instancia.
+		-varaiveis de classe: Contem a palavra chave 'static', que a torna uma variavel com um unico valor definido, mas nao imutavel, para todas as suas intancias. Usar 'final' apos 'static', 
+				      torna a variavel uma constante, impossibilitando que seu valor mude.
+		-variaveis locais: sao variaveis que sao definidas dentro de metodos, armazenando o estado temporario de um metodo nela. Nao contem nenhum modificador ou palavra chave especial.
+		-parametros: sao opcionais e sao definidos apos a nomeacao de um metodo, dentro de parenteses. os parametros necessitam ter um tipo e um nome.
+		
+resumo sobre nomeacao de variaveis e campos:
+
+	normalmente, o nome de uma variavel ou campo segue o estilo camelCase, sendo a primeira letra da primeira palavra minuscula e a primeira letra da palavra subsequente maiuscula. ex.: currentSpeed;
+	se o nome da variavel contiver apenas uma palavra, como speed por exemplo, entao toda a palavra deve ser minuscula.
+	caso a variavel ou campo seja constante (static final), a convencao muda e a nomeacao contem todas as palavras em maiusculo. Caso seja mais de uma palavra, deve haver separacao por underscore (_), 
+	seguido da proxima palavra, que tambem sera em sua totalidade maiuscula. ex.: int static final NUM_GEAR = 6; nao sendo uma constante teriamos int static numGear = 6;
+	
+	
+TIPOS PRIMITIVOS
+
+resumo sobre tipos de dados primitivos:
+	
+	java contem 8 tipos de dados primitivos (byte, short, int, long, float, double, boolean e char). do byte ao int, temos denominaçoes. byte e o tipo de dados com menor espaco, sendo usado para 
+	economizar espaco em grandes arrays. short deve ser usado ao inves de byte caso precise de um pouco mais de espaco. int segue o mesmo preceito. Long deve ser usado quando se necessita de um intervalo
+	de dados maior que int e comumente ao fim do valor, se usa o caractere 'L' para indicar que aquele valor e do tipo 'long'. caso contrario, sera int.
+	float e um ponto flutuante de 32 bits e deve conter um f ou F ao fim de seu valor, caso contrario sera double. o D ou d de double e opcional caso ele seja utilizado. Double trabalha com arquitetura
+	de 64 bits e armazena valores mais precisos que float. boolean apenas testa true ou false e char armazena apenas um caractere por vez dentro de aspas simples ''.
+	
+	String nao e um tipo de dado primitivo, mas e tratado como tal. O valor de um campo String, uma vez criado e executado, se torna imutavel durante a execucao do programa, sendo possivel apenas 
+	substituir o valor de uma variavel String durante a execucao, mas ao fim da execucao, o valor original estara la. Por conta de ser naturalmente imutavel, String nao necessita de denominacao static ou 
+	final para manter seus valores.
+	
+	o compilador sempre atribuirá um valor padrao para campos inicializados sem um valor definido. sao eles: do byte ao int = 0; long = 0L; float = 0,0f; double = 0,0d; boolean = false; char = \u0000; 
+	String ou qualquer outro objeto = null;
+	
+resumo sobre literais:
+
+	Valores literais em java sao valores atribuidos no momento da codificacao de um campo. ex.: String str = "Hello World!";
+	essa tatica pode ser usada quando algum metodo ou parte do codigo necessite de um valor de entrada. Variaveis locais nao recebem um valor padrao pelo compilador. se o programa for compilado com uma 
+	variavel local sem valor definido, resultara em erro de tempo de compilacao;
+	
+	existem sistemas numericos que podemos usar em nossos campos e variaveis: decimal (0-9), hexadecimal (0x1a, 0x112b), e binario (0b11010);
+	
+	para valores precisos como moeda, nao utilizar double ou float. Atentar-se a usar metodos da classe BigDecimal;
+	
+	para valores literais muito grandes em uma variavel, recomenda-se utilizar '_' em cada intervalo que voce decidir para facilitar a leitura do codigo e o seu entendimento
+	
+	
+ARRAYS
+
+resumo sobre arrays:
+	
+	a sintaxe de instancia de um objeto array e: type[] anArray = new type[10];
+	a sintaxe de criacao de um array dinamico e: type[] anArray = {..., ..., ...,};
+	a sintaxe de um array multidimensional e: type[][] anArray = new type[10][10];	//o primeiro [] pode conter 10 elementos array. o segundo [] pode conter ate 10 espacos para cada elemento array
+	a sintaxe de um array multidimensional dinamico e: type[][] anArray = {{..., ..., ...,}, {..., ..., ...,}, {..., ..., ...,}};
+	
+	arrays sao objetos conteiners. por serem objetos, eles sao instanciados com a palavra chave new, seguido do tipo de dados da array e um espaco a ser alocado entre colchetes.
+	arrays modulares (que nao tem espaco alocado) nao precisam ser instanciadas, visto que sao dinamicas, podendo remover ou adicionar dados independente de quantos sejam, interferindo em seu tamanho.
+	arrays modulares nao fazem uso da palavra chave new, apenas de {}. dentro dessas chaves, cada valor do tipo declarado para a array deve ser separado com virgula e nao ha limites de tamanho aqui. 
+	a escolha de tornar um array num objeto vem da premissa de que um objeto tem seus limites. uma vez instanciado, voce deve trabalhar com o que tem no objeto sem sair de seus limites.
+	a escolha de tornar um array dinamico vem da premissa de que objetos nao contem dinamismo. como dito acima, uma vez instanciado, o objeto tera limites. sem instancia, ele se torna modular, tendo seu
+	tamanho definido de acordo com a quantidade de dados armazenada ou nao.
+	
+	existem metodos em arrays que servem para copiar arrays para outras arrays, pesquisar valores para obter seu indice, comparar uma array com a outra, preencher espacos vazios da array com algum valor,
+	usar .stream para sequenciar a array e passar diversos metodos para manipular os dados presentes dentro dela, organizar, organizar paralelamente (isso e util para arrays gigantes, pois a organizacao
+	paralela faz uso de multithreads para organizar arrays mais rapidamente), dentre outros metodos.
+	
+	a criacao de uma array pode ser feita com qualquer tipo de dado (seja ele primitivo ou nao). 
+	
+	arrays podem ser somente declaradas ( type[] anArray; ). Mas em alguma parte do codigo ela precisa ser incializada ( anArray = new type[10] ou anArray = {..., ...,}; ).
+	
+	para acessar arrays multidimensionais, deve ser chamar o nome da array (anArray[][]) e no primeiro [], chamar o elemento array aninhado (anArray[1][]) e no segundo, o objeto que voce procura dentro
+	desse array aninhado (anArray[1][3]).
+	
+	a propriedade interna java permite que voce acesse o tamanho do array com anArray.length;
+	
+
+IDENTIFICADOR DE TIPO "VAR"
+
+resumo sobre var:
+	
+	var e um identificador de tipo no qual voce nao precisa especificar se a variavel que voce criou e uma string, int, Path, InputStream, etc. desde que a variavel seja devidamente inicializada.
+	o identificador de tipo var torna o codigo mais simples de se ler, evitando muitas declaracoes de tipo com diversas sintaxes confundindo o codigo.
+	o identificador de tipo var tem algumas limitacoes:
+		- so pode ser declarado em variaveis locais declaradas em metodos, construtores e blocos inicializadores;
+		- var nao pode ser usado para campos e nem para parametros de metodos e construtores;
+		- quando a variavel for declarada, o construtor deve ser capaz de identificar o tipo. como null nao tem um tipo e se ele for usado como valor para uma variavel, entao o compilador nao 
+		  conseguira identificar o tipo da variavel. ela deve ser inicializada com dados validos e que possam apontar para um tipo valido
+	
+
+OPERADORES
+
+resumo sobre operadores:
+	
+	existem precedencias (do mais importante ao menos importante) em operadores em java.
+	os operadores com alta precedencia e que sao comumnete utilizados sao: 
+		
+		pos-fixado/pre-fixado: 		expression++, expression-- / ++expression, --expression; 
+		unario: 			+expression, -expression, !;
+		multiplicativo: 		*, /, %;
+		aditivo:			+, -
+		relacional:			<, >, <=, >=, instanceof
+		igualdade:			==, !=
+		logico AND:			&&;
+		logico OR:			||;
+		ternario:			? :
+		atribuicao:			=, +=, -=, *=, /=, %=, 
+		
+resumo explicacao sobre logica de alguns operadores:
+		
+	alguns operadores que tem uma logica que pode confundir sao: %, !=, !, ? :, instanceof, +/-expression, expression++/--, ++/--expression;
+	
+	o operador % retorna o resto da divisao de dois numeros numa operacao. ex.: 10 % 2 = 5 (le-se: o resto da divisao de 10 dividido por 2 e igual a 5);
+	o operador != indica que ou se uma variavel e diferente da outra variavel. ex.: if(x != y) { return x} else {return y} (le-se: se x for diferente de y, retornar x. se nao, retornar y);
+	o operador ! serve para inverter o valor de um booleano. ex.: boolean isTrue = false; System.out.print(!isTrue); (le-se: booleano isTrue e igual a false. printar o valor invertido - false -> true)
+	
+	o operador ? : abrevia a instrucao if...then...else para um operador composto de 3 operandos: condicao ? true : false; deve ser usado se isso melhora a legibilidade do codigo e se a situacao for de
+	simples resolucao. para uma logica mais complexa, esse operador nao sera o suficiente. ex.: resultado = x == 7 ? x : 7; (le-se: x e igual a 7? se sim, atribuir x a variavel resultado. se nao,
+	atribuir 7);
+	
+	o operador instanceof serve para verificar se um objeto e uma instancia de uma classe ou interface especifica. pode ser usado para testar se o objeto verificado e uma instancia de uma classe,
+	subclasse, interface ou uma sub/superclasse que implementa uma interface. ex.: Parent obj1 = new Child(); boolean isTrueOrFalse = obj1 instanceof Child() ? true : false; (le-se: obj1, do tipo Parent,
+	instancia a classe Child(). crio um booleano chamado isTrueOrFalse, que tera como valor uma condicional que testa se obj1 e instancia de Child(). se sim, retornar o valor true. se nao , retornar
+	false);
+	
+	o operador +/-expression, serve para positivar ou negar uma expressao. sem o operador -expression, a operacao se torna positiva (mesmo tendo sido negada antes). Nao e necessario positivar a operacao
+	com +, a nao ser se for um caso especifico. ex.: int num = 5; System.out.print(-num); (le-se: crio um campo num de valor 5. entao imprimo na tela o campo negado. a saida do codigo e -5);
+	
+	o operador ++/--expression diz que, ao chamar a expressao (colocaremos o mesmo num criado anteriormente), ela processara + 1 ou - 1 ao valor da variavel antes de continuar o resto do processamento
+	de algum calculo, por exemplo. ex.: System.out.print(++num); System.out.print(--num); (le-se: mostrar na tela o valor de num ja processado em + 1 (6). apos isso, mostrar na tela o valor de num ja 
+	processado em - 1 (5));
+	
+	o operador expression++/-- diz que, ao chamar a expressao (colocaremos o mesmo num criado anteriormente), ela processara primeiro o valor da variavel, entao ira adicionar ou subtrair 1 da variavel.
+	ex.: 
+	System.out.print(num++); 
+	System.out.print(num); 
+	System.out.print(num--); 
+	System.out.print(num); 
+	
+	(le-se: mostrar na tela o valor de num (5) e nos bastidores, processar + 1 a variavel num. 
+		mostrar na tela o novo valor de num (6).
+		mostrar na tela o valor de num (6) e nos bastidores, processar - 1 a variavel num.
+		mostrar na tela o novo valor de num (5));
+
+		
+resumo de alguns usos criativos dos ultimos operadores:
+
+	pode-se utilizar os ultimos operadores de forma criativa. Utilizando a mesma variavel num, podemos negar seu valor e, em seguida, aumentar seu valor ainda negativo. podemos fazer da seguinte forma:
+	
+	int num = 5;
+	
+	System.out.print(-num++);	//nega o valor de num (-5) e incrementa + 1
+	System.out.print(-num);		//novo valor de num negativo (-6)
+	System.out.print(-num--);	//mantem o valor de num negado (-6) e decrementa - 1
+	system.out.print(-num);		//novo valor de num negativo (-5);
+	
+	//tambem podemos fazer outra coisa, mas acredito que nao seja tao utilizado
+	System.out.print(++num++);	//mostra o valor de num + 1 (6) e incrementa + 1;
+	System.out.print(num);		//novo valor de num (7);
+	System.out.print(--num++);	//decrementa o valor de num em - 1 (6) e incrementa + 1;
+	System.out.print(num);		//novo valor de num (7);
+	
+	resumindo: quando uma variavel contem a expressao ++ ou -- antes dela (pre fixado), primeiro o compilador ira processar + 1 ou - 1 ao valor da variavel e, em seguida, continuara com sua execucao.
+		   quando uma variavel contem a expressao ++ ou -- depois dela (pos fixado), primeiro o compilador le o valor da variavel, e em seguida, processa + 1 ou -1 ao valor da variavel para, entao
+		   seguir com sua execucao.
+		   
+
+EXPRESSOES, DECLARACOES E INSTRUCOES
+
+resumo sobre expressoes, declaracoes e instrucoes:
+	
+	uma expressao pode ser qualquer sintaxe, metodo ou chamada de metodo. em outras palavras, uma expressao pode ser tudo o que uma linguagem de programacao reconhece.
+	uma expressao pode se tornar uma instrucao quando sua estrutura termina com um semicolon (;)
+	declaracoes sao instrucoes de expressoes. os tipos de instrucoes podem ser uma declaracao: 
+		expressoes de atribuicao; 
+		qualquer expressao que utilize ++ ou -- (incremento e decremento);
+		invocacoes de metodos;
+		e expressoes de criacao de objeto (geralmente construtores);
+		
+	alem das instrucoes ja explicadas, existem outros dois tipos de instrucoes: instrucoes de declaracao e instrucoes de fluxo de controle;
+		uma instrucao de declaracao declara uma variavel. (campos e variaveis locais);
+		uma instrucao de fluxo de controle regulam a ordem em que as instrucoes sao executadas (if...then, if...then...else, while, do-while);
+		
+		
+resumo sobre blocos:
+
+	blocos sao compostos por chaves balanceadas e contem um conjunto de zero ou mais instrucoes que podem ser utilizadas em qualquer parte que se permita no codigo. geralmente, blocos de execucao 
+	(ou bloco de codigo) sao utilizados dentro de metodos ou declaracoes especiais como fluxo de controle, loops, arrays modulares etc.
+	
+	
+resumo sobre aritmetica de ponto flutuante:
+
+	aritmetica de ponto flutuante utilizam double (valores muito precisos) e float (valores menos precisos) como tipo de variaveis para executar calculos aritmeticos em numeros de ponto flutuante.
+	os numeros que double e float armazenam ou expoem sao numeros com fracoes binarias.
+	devido a precisao finita dos numeros, alguns numeros podem nao ser mostrados com alta precisao, gerando pequenos erros de arredondamento.
+	realizar grandes operacoes aritmeticas como adicao, subtracao, divisao e multiplicacao em numeros de ponto flutuante pode gerar erros devido a limitacao de precisao. esses erros podem se tornar mais
+	evidentes a medida que operacoes aritmeticas mais complexas sao feitas em cima desses tipos de numeros
+	existem valores especificos como NaN (Not a Number) ou "infinito". tais valores podem ser usados para representar erros em operacoes invalidas ou divisoes por 0.
+	
+	
+	
+DECLARACAO DE FLUXO DE CONTROLE
+
+resumo sobre declaracoes de fluxo de controle
+
+	if-then: a declaracao if-then (se-entao) diz que se uma condicao for verdadeira, entao executar a instrucao presente dentro do bloco de codigo da declaracao if-then;
+	if-then-else: a declaracao if-then-else (se-entao-se nao) faz a mesma coisa que a if-then. porem, se a condicao for falsa,um segundo bloco de codigo e executado com outra instrucao;
+	
+	while: a declaracao while (enquanto) analisa um valor booleano passado a ela. se o valor for "true", ela executara uma instrucao em seu bloco de codigo ate que o valor passado a ela seja "false";
+	do-while: do-while (fazer-enquanto) avalia a expressao na parte inferior do loop ( while(expression) ) e toda instrucao que esta dentro do bloco "do" sera executada pelo menos uma vez;
+	
+	for loop: for (para) recebe 3 expressoes dentro de sua estrutura: inicializacao, terminacao, e incremento/decreemento. na inicializacao, geralmente se cria uma variavel local e a ela e atribuido um
+	valor (isso se essa variavel nao vai ser utilizada em outra parte do codigo). entao, na terminacao e passado uma condicao (ex.: se i for menor que 10;). E, se a condicao for verdadeira, a execucao
+	passa para o incremento e a execucao do loop for so e cessada caso a condicao passada na terminacao seja falsa. 
+	
+	ex.: 
+		se i for menor que 10; incrementar + 1 a i; dentro do bloco de execucao pode ser passado algum codigo que ira performar enquanto i nao for menor que 10. quando i for igual a 9, mas menor que
+		10 (para fazer com que i seja menor ou igual a 10, utiliza-se '<='), a execucao do programa deixa toda a estrutura de iteracao e passa para a proxima declaracao.
+		
+	enhanced for: enhanced for (for aprimorado) e uma outra estrutura de iteracao, porem voltada a matrizes e listas. e recomendado utilizar essa estrutura ao inves da outra, sempre que possivel.
+	existem somente duas instrucoes para esse tipo de for: variavel : array ou lista;
+	neste tipo de iteracao for, e criado uma variavel local do mesmo tipo da array ou lista para que possa receber cada valor de cada indice da array ou lista, e entao, dentro do bloco de codigo, 
+	deve-se utilizar essa variavel local criada para executar alguma acao, e nao a matriz ou lista que passara os valores. ao termino da iteracao, o codigo continuara seu fluxo normalmente
+	ex.:
+		int[] numbers = {10, 20, 30, 40, 50};
+		
+		for(int printNumbers : numbers) {
+			System.out.print(printNumbers);
+		};
+		
+	
+	Instrução `break`:
+  		- Sem rótulo: Interrompe a execução do loop mais interno, dando continuidade aos loops externos.
+  		- Com rótulo: Interrompe a execução de toda uma cadeia de iterações ou iterações específicas de acordo com o rótulo chamado.
+
+	Instrução `continue`:
+		- Sem rótulo: Continua a execução do código para a próxima iteração, ignorando qualquer código que exista após a palavra-chave `continue`.
+		- Com rótulo: Continua a execução do código para uma iteração específica, ignorando qualquer código que exista abaixo da palavra-chave `continue`.
+
+	Ambas as instruções podem ser utilizadas em casos `switch`.
+
+	Rótulos:
+	  	- Os rótulos são usados exclusivamente com as palavras-chave `break` e `continue`.
+	  	- Servem para controlar o fluxo do código, permitindo a interrupção ou continuação em um ponto específico de uma iteração.
+	  	- Podem ser considerados instruções de controle de fluxo.
+
+	
+	break nao-rotulada: 
+
+		int[] anArray = {0, 302, 15, 6994, 33, 29};
+		int numberToSearch = 33;
+		boolean foundIt = false;
+		
+		for(int i = 0; i < anArray.length; i++) {
+			if(anArray[i] == numberToSearch) {
+				foundIt = true;
+				break;
+			}
+		};
+		//execucao continua a partir daqui
+				
+		System.out.println("Founded " + numberToSearch + " at index " + i + ";");
+		
+	break rotulada:
+	
+		int [][] anArray = {
+		  {10, 20, 30, 40, 50},
+		  {396, 12, 110, 957},
+		  {1, 99, 83, 13}
+		};
+		
+		int i;
+		int j;
+		int numberToFound = 110;
+		boolean foundIt = false;
+		
+	    search:
+		for(i = 0; i < anArray.length; i++) {
+		deepSearch:
+		   for(j = 0; j < anArray[i].length; j++) {
+		   	if(anArray[i][j] == numberToFound) {
+		   	   foundIt = true;
+		   	   break deepSearch;
+		    	}
+		   }
+		   // A execucao continuara a partir daqui (loop for mais externo). 
+		   // Se break parar search, entao a execucao do codigo continuara na System.out.println abaixo, fora dos blocos de iteracao.
+		}
+		
+		System.out.println("Found " + numberToFound + " in index " + i + " and " + j + ";");
+		
+	continue nao rotulada:
+		
+		class ContinueDemo {
+   			public static void main(String[] args) {
+
+				String searchMe = "peter piper picked a " + "peck of pickled peppers";
+				int max = searchMe.length();
+				int numPs = 0;
+
+       				for (int i = 0; i < max; i++) {
+            				// interested only in p's
+            				if (searchMe.charAt(i) != 'p')			//neste exemplo diz que, se o char examinado na posicao do indice (i) na string searchMe contiver um valor diferente de
+                				continue;				//'p', continuar a iteracao, ignorando todo codigo abaixo da instrucao continue ate que, neste caso, uma letra p seja
+                									//encontrada. caso contrario, a instrucao continue e ignorada e o codigo abaixo dela e executado
+            				// process p's
+            				numPs++;
+        			}
+        		
+			        System.out.println("Found " + numPs + " p's in the string.");
+    			}
+		}
+		
+	continue rotulada:
+
+		class ContinueWithLabelDemo {
+		    public static void main(String[] args) {
+
+		        String searchMe = "Look for a substring in me";		//string para pesquisar
+		        String substring = "sub";				//substring para pesquisar
+		        boolean foundIt = false;				//booleano que definira se a substring foi encontrada
+
+			int max = searchMe.length() -				//variavel max do tipo inteiro que tem como valor o resultado da subtracao do tamanho da substring da string em searchMe
+				  substring.length();
+
+		    test:							//label test
+			for (int i = 0; i <= max; i++) {			//enquando a variavel i for menor ou igual a max (variavel que tem como resultado a subtracao do taman de duas strings), i++
+			    int n = substring.length();				//variavel do tipo inteiro que tem como valor o tamanho da variavel substring
+			    int j = i;						//variavel do tipo inteiro que tem como valor a variavel iterada i
+			    int k = 0;						//variavel do tipo inteiro que tem como valor 0
+			    while (n-- != 0) {							//enquanto n - 1 for diferente de 0...
+				if (searchMe.charAt(j++) != substring.charAt(k++)) {		//se o caractere da searchMe j + 1 analisado for diferente ao caractere de substring k + 1 analisado
+				    continue test;						//continuar test
+				}
+			    }
+			    foundIt = true;							//se nao, foundIt sera invertido 
+				break test;							//e o label test sera encerrado.
+			}
+			System.out.println(foundIt ? "Found it" : "Didn't find it");		// mostrar na tela o resultado true ou false de um ternario.
+		    }
+		}
+		
+		
+	palavra chave return:
+		
+		a palavra chave return presente dentro de um metodo retorna o fluxo de controle para onde o metodo foi invocado. 
+		Existem 2 tipos de retorno: 
+			retorno que retorna algum dado;
+			retorno que nao retorna nada;
+			
+		o retorno que retorna algum tipo de dado deve retornar o mesmo tipo de dado que o referenciado na hora da criacao do metodo. se um metodo contem um public int expression(){}, deve-se retornar
+		um int ou alguma instrucao que calcula um int. o retorno de dados pode retornar diversos dados: String, byte, short, array, ou ate mesmo outros objetos
+		o retorno que nao retorna nada pode ser empregado dentro de um metodo void (public void expression(){}), afim de garantir que o programa retorne a execucao do codigo para o lugar de onde foi
+		chamada, porem, sem dados. isso e util quando voce precisa executar algum metodo dentro de uma classe ou ate mesmo parte dele, e nao todos os metodos da classe. executando tal metodo, 
+		apenas uma parte do codigo sera processada, evitando que a execucao caminhe a outros metodos que, talvez, nao tenham a necessidade de chamada naquele instante.
+		
+		
+	palavra chave yield:
+		
+		yield e um retorno de dados proprio para a instrucao switch. existem 2 maneiras de se retornar um valor yield: 1 - criando uma variavel de tipo x que tem como valor uma instrucao switch 
+		que retorna um valor do tipo x para a variavel; 2 - criando um metodo de tipo x e usando a palavra chave return para retornar um switch que produz um valor do mesmo tipo do metodo;
+		
+		geralmente, yield retorna um valor produzido (seja um calculo, concatenacao de strings, algum tipo de processamento de dado, etc.), ou seja, nao e necessario inserir yield em todos os cases 
+		de um switch, somente quando o processamento de um valor e necessario.
+		
+		retornar um resultado yield para uma variavel de um tipo e retornar um resultado yield para um metodo de um tipo depende do que seu projeto necessite. 
+		ao retornar um resultado yield para uma variavel, voce assegura que o metodo em questao nao tera aquele resultado como o final, mas que esse resultado estara presente em uma variavel.
+		ao retornar um resultado yield para um metodo, voce assegura que o metodo em questao sera responsavel por retornar um valor produzido por yield, dependendo do case analisado.
+		
+		
+SWITCH (INSTRUCAO)
+	
+sintaxe da instrucao switch: 
+	
+	switch(expression) {
+	   case L :
+	}
+
+resumo sobre a instrucao switch:
+
+	switch e uma das 5 instrucoes de fluxo de controle de codigo. Ela recebe uma chave seletora em sua expressao e avalia o valor passado a essa chave para executar um rotulo case correspondente.
+	sao permitidos os seguintes tipos de dados no corpo da expressao switch: 
+		tipos primitivos: byte, short, char e int;
+		tipo wrapper: Character, Byte, Short e Integer;
+		tipos enumerados;
+		tipo String;
+	
+	dados que a expressao switch nao aceita como valor de chave seletora:
+		boolean, long, float e double;
+		
+	o corpo de uma instrucao switch e comumente chamado de bloco switch. Dentro do bloco switch, sao configurados os rotulos cases que irao corresponder ao valor analisado pelo switch na chave seletora
+	em sua expressao. Cada rotulo case de switch deve conter uma instrucao break ao fim de sua execucao. Caso contrario, o switch executara cada case em ordem ate encontrar alguma instrucao break.
+	Isso tambem e conhecido como Fall Throught. Fall Throught pode ser usado quando um case do bloco switch e acessado mediante ao valor analisado na chave seletora. se nao houver nenhuma instrucao
+	break nos proximos rotulos, switch executara todos os cases ate o fim (caso ele nao encontre uma instrucao break pelo caminho).
+	
+	toda instrucao switch pode ou nao conter o case default. O rotulo default trata o dado que a expressao switch leu na chave seletora e que nao correspondeu explicitamente com nenhum dos cases.
+	E recomendado que o rotulo default seja empregado sempre que possivel, pois ele pode ser usado em tratamento de excessoes contra dados invalidos ou nulos.
+	
+	um dado analisado na chave seletora de switch pode corresponder a mais de um case switch. a sintaxe para isso e a seguinte: 
+	case 1: case 2: case 3:... case 5: System.out.println("Hello World!");
+	O motivo para isso e que um dado analisado na chave seletora de switch pode corresponder mais de um case ao mesmo tempo e isso pode simplificar no momento em que algum calculo de atribuicao de meses
+	(por exemplo) seja feito. Digamos que os meses 1, 3, 5, 7, 8, 10, 12 possuem 31 dias. Entao iremos criar cases com esses meses (case 1: case 3: case 5...) e, no ultimo case, definir o valor de 
+	31 dias a alguma variavel que armazene tais dados. lembrando-se sempre de empregar a instrucao break ao fim de cada case se sua proposta nao for criar um fall throught.
+	
+	a escolha entre utilizar if-then-else e switch depende da legibilidade do codigo e da expressao que a instrucao esta testando.
+	uma instrucao if-then-else pode testar valores com base em intervalos de valores ou condicoes.
+	uma instrucao switch apenas testa expressoes com base em apenas um unico dado fornecido (numero inteiro - int, valor enumerado - enum e objeto String);
+	
+	existe uma forma de se utilizar uma variavel String como chave seletora para switch. Para evitar discrepancias CamelCase, recomenda-se, nestes casos, utilizar o metodo toString() apos a chamada da 
+	variavel String na chave seletora para que qualquer String digitada seja analisada com todos os seus caracteres minusculos. Os cases devem seguir o mesmo padrao lowerCase (minusculo) que a instrucao
+	switch le em sua chave seletora.
+	a instrucao switch, entao, compara todos os cases como se o metodo String.equals() estivesse sendo utilizado.
+	
+	a variavel seletora de uma instrucao switch pode ser um objeto. Apos uma atualizacao de melhoria da JEP 361, switchs agora podem aceitar valores nulos.
+	
+	
+
+SWITCH (EXPRESSAO)
+
+sintaxe da expressao switch:
+	
+	switch(expression) {
+	   case L -> {};	// as chaves sao opcionais. se um case da expressao switch contiver mais de uma instrucao, entao deve-se utilizar chaves
+	}
+
+resumo sobre a expressao switch:
+	
+	a expressao switch difere da instrucao switch em seus cases. enquanto a instrucao switch utiliza : para denotar onde inicia os dados que serao processados pelo case correspondente, a expressao
+	switch utiliza a expressao lambda -> para realizar essa acao. caso haja somente uma instrucao em um case da expressao switch, e opcional a insercao de um bloco {}. caso haja mais de uma instrucao em 
+	um case da expressao switch, e necessario utilizar o bloco de codigo dentro do case para envolver o conjunto de expressoes.
+	tambem e possivel utilizar um bloco de codigo em um case com uma expressao unica caso deseje, nesta expresao, definir uma variavel local aquele case.
+	existem 3 motivos que deram forca a essa nova sintaxe:
+	
+		- O comportamento padrao entre rotulos de uma instrucao switch e falhar. Isso deixa a sintaxe propensa a erros e bugs em aplicativos;
+		- O bloco da instrucao switch e tratado como um bloco geral. Isso pode ser um impedimento caso haja necessidade de definir uma variavel local em apenas um case;
+		- A declaracao switch e uma declaracao. Nos outros exemplos em que a instrucao switch e empregada, uma variavel recebe um valor em cada case. Tornar a instrucao switch em uma expressao 
+		tornaria o codigo mais legivel e de facil manuseio e manutencao, fora a escalabilidade;
+		
+	Qual das duas escolher usar?
+	A expressao switch e usada para processar informacoes e retornar algum valor com a palavra chave yield (tanto para uma variavel, quanto para um metodo retornando a expressao switch).
+	A instrucao switch apenas processa informacoes e nao retorna nada, mas isso nao impede que ela seja utilizada para essa finalidade. tudo depende da necessidade de seu projeto. Porem, o recomendado a 
+	essas operacoes e a expressao switch, e nao a instrucao.
+	
+	Analogamente, podemos dizer que a instrucao switch e comparavel a um metodo void (sem retorno ou que retorna nada), e a expressao switch e comparavel a um metodo que retorna um valor de um caso 
+	correspondente.
+	
+	apenas o codigo mais a esquerda do case switch sera executado. Este codigo pode ser uma expressao unica ({} opcional), expressao conjunta ({} obrigatorio), ou uma instrucao throw, que lanca excessoes
+	se o case switch contiver um bloco que envolve uma expressao, pode-se definir variaveis locais a ele com seguranca.
+	
+sobre o uso da instrucao break:
+	
+	quando uma expressao switch retorna algum valor, isso significa que ela nao precisa da instrucao break, ja que ela ira parar de percorrer os cases pois um valor ja foi obtido. Entao se um valor e 
+	retornado, nao ha risco de ocorrer um fall throught pela falta da instrucao break. Mas deve-se ter a devida atencao e verificar se o valor do case correspondente esta sendo devidamente retornado, 
+	se nao um fall throught pode ocorrer. Se essa for sua intencao, entao o uso da palavra chave break se torna opcional e o case correspondente nao pode retornar um valor.
+	
+exemplo de uso simplificado de uma expressao switch:
+
+	um exemplo do porque utilizar uma expressao switch e que ela elimina algumas linhas de codigo por suportar multiplas constantes por caso, e cada uma delas separadas por virgula. Isso simplifica a
+	visualizacao e manutencao do codigo como um todo.
+	enquanto uma instrucao switch contem casos na seguinte ordenacao:
+	
+	switch(expression) {
+	   case 1: case 2: case 3:
+	   //instrucao a ser executada
+	   break;
+	   
+	   case 4: case 5, case 6:
+	   //instrucao a ser executada
+	   break;
+	};
+	
+	uma expressao switch pode reescrever o codigo exemplo acima da seguinte forma:
+	
+	int number = 
+		switch(expression) {
+		   case 1, 2, 3 -> //retorna soma ou alguma operacao entre 2 numeros
+		   case 4, 5, 6 -> //retorna algum valor numerico aleatorio
+		}
+		
+	claro que, se fosse utilizado bloco de codigos para compor as expressoes dentro de um case switch, os cases seriam um pouco maiores. Porem, nao tao grandes e desorganizados quanto os cases da
+	instrucao switch.
+
+	
+explicando melhor o funcionamento de retorno de uma expressao switch:
+
+	se houver apenas uma instrucao no (bloco - se houver) do case, o valor produzido por essa instrucao sera retornado pela expressao switch, sem a necessidade de utilizar yield para retornar um valor.
+	E altamente desaconselhado e desincentivado o uso da palavra chave return dentro de um case de uma instrucao ou expressao switch. Isso pode levar a ambiguidades (nao linearidade) de informacoes no
+	codigo, o que pode tornar confuso o entendimento, a manutencao e ate mesmo o funcionamento a longo prazo do aplicativo.
+	sempre use a palavra chave yield, pois e um retorno apropriado para o switch.
+	resumindo: return - retorno de metodo; yield - retorna o rendimento de um case switch;
+	
+	
+clausula ou rotulo 'default'
+
+	um rotulo default (em ambos os tipos de switchs), lida com dados que nao correspondem a nenhuma das constantes dos cases configurados. Ou seja, um tipo de dado que foge da correspondencia dos cases 
+	previamente configurados. a falta de uma clausula default pode se tornar um problema, ja que se nenhum case trata o dado inesperado e nao tem nenhum rotulo que o trate, isso pode ficar subentendido
+	pelo compilador e gerar alguns bugs escondidos no aplicativo, o que pode se tornar uma dor de cabeca.
+	
+	normalmente, todos os casos presentes em uma expressao ou instrucao switch devem ser exaustivos. O que significa que para cada valor deve haver um case com uma constante correspondente.
+	se existir o case 1, 2 e 3, e o valor de entrada da chave seletora do switch for 4 ou algum outro valor String, etc, os cases 1, 2 e 3 nao poderao ler esses valores. Logo, a clausula default devera
+	tratar esses valores inesperados (que nao corresponde a nenhuma constante dos cases ja configurados).
+	
+	quando se diz que os cases de um switch devem ser exaustivos, podemos pensar da seguinte forma: que, independente do dado analisado na chave seletora da declaracao switch, ele sera tratado de alguma
+	forma. mesmo que o programa ou o usuario insira dados inesperados a procura de bugs ou falhas no aplicativo, todos os dados inesperados serao tratados, tornando exaustiva a tentativa de criar uma 
+	falha no sistema switch criado.
+	
+	
+'default' em ocasioes especiais
+
+	no caso de dados enumerados (enum), os valores ja sao previamente conhecidos, entao existira um case para cada valor enum e, por isso, nao e necessario a implementacao de uma clausula default pois os
+	valores enumerados sao constantes (declarados com a palavra chave final). O que significa que, durante a execucao do programa, esses valores nao podem ser alterados.
+	
+	mas, tem um caso ainda a ser tratado... se alguem fizer a manutencao ou implementacao de alguma funcionalidade do codigo e adicionar um valor enum a variavel enumerada e esquecer de criar um case
+	para aquele novo valor enum, o que aconteceria? Neste caso, o compilador adicionaria uma clausula padrao em instrucoes ou expressoes switch exaustivas. Essa clausula default nunca sera executada em 
+	casos normais. Sera somente executada se um valor enumerado tiver sido adicionado e lancara um IncompatibleClassChangeError.
+	
+	
+explicando sobre a escrita de dois pontos em expressoes switch:
+	
+	uma expressao switch tambem pode usar um bloco case tradicional com a sintaxe de uma instrucao switch (case L:).
+	Neste caso, a semantica e aplicada e os valores sao obtidos utilizando a instrucao yield:
+	
+	int quarter = ... //any value
+	
+	String quarterLabel = 
+		switch (quarter) {
+			case 0 : yield "Q1 - Winter";
+			case 1 : yield "Q2 - Spring";
+			case 2 : yield "Q3 - Summer";
+			case 3 : yield "Q3 - Summer";
+			default: System.out.println("Unknow quarter");
+				 yield "Unknow quarter";
+		};
+		
+		
+tratando valores nulos em expressoes switch:
+
+	novamente, ate antes da melhoria JEP 361, valores nulos nao eram permitidos nas chaves seletoras switch.
+	Tambem, a partir do Java SE 17 possui um recurso de visualizacao que aprimora as expressoes switch para permitir valores nulos.
+	
+-------------------------------------------------------------------------------------------------FIM-------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
