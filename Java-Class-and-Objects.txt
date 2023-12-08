@@ -1,0 +1,448 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------Inicio-------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+VISAO GERAL MAIS APROFUNDADA SOBRE CLASSES E OBJETOS JAVA
+
+
+CLASSES:
+
+Resumo sobre Classes:
+
+	ex. de declaracao de classe: public class App {};
+	ex. de declaracao de classe que herda componentes de outra classe: public class App extends AppInterface {};
+	ex. de declaracao de classe que herda uma classe e implementa uma interface: public class App extends AppInterface implements GeneralLogics{};
+	
+	O escopo de uma classe contem alguns elementos que tornam um arquivo uma classe:
+		- Presenca ou ausencia modificadores de acesso (ex.: public, private, etc). Classes so podem ser privadas se forem aninhadas;
+		- O nome da classe, com a inicial maiuscula por convencao;
+		- Se houver uma superclasse, chama-la apos a palavra chave 'extends'. Uma classe so pode conter uma superclasse;
+		- Se houver uma interface, chama-la apos a palavra chave 'implements'. Caso haja mais de uma interface, separar cada uma por
+		  virgula. Uma classe pode implementar mais de uma interface;
+		- O corpo da classe, entre colchetes {}. No corpo da classe pode conter campos, metodos e construtores de classe;
+		
+		
+Resumo sobre variaveis de membro;
+
+	Como ja visto anteriormente, existem varios tipos de variaveis:
+		- Variaveis de membro em uma classe --- sao chamadas de campos;
+		- Variaveis em um metodo ou bloco de codigo --- sao chamadas de variaveis locais;
+		- Variaveis em declaracoes de metodos --- sao chamadas de parametros;
+		
+	E a declaracao de um campo contem os 3 seguintes elementos:
+		- Zero ou mais modificadores de acesso, como public ou private por exemplo;
+		- O tipo do campo;
+		- O nome do campo;
+		
+	Os campos public e private controlam quem tem acesso a esses tipos de dados.
+	
+	
+Resumo sobre controle de acessso a um membro:
+	
+	O primeiro modificador mais a esquerda usado permite controlar quais outras classes tem acesso a um campo de membro.
+	Existem varios modificadores. No entanto, os mais comumente utilizados sao public e private.
+	
+		public - pode ser acessado por qualquer lugar do projeto;
+		private - pode ser acessado apenas na classe em que e declarado;
+		
+	Um programa robusto, seguro e modular faz uso constante de encapsulamento. A palavra chave private torna o encapsulamento possivel, visto
+	que os dados de um membro so podem ser alterados por metodos, e nao por qualquer lugar do projeto ou por meios externos.
+	Para obter e definir valores a esses membros privados, precisamos de metodos dentro da classe onde estao os membros privados que realizem essa funcao.
+	Esses metodos sao chamados de getters e setters (ou get e set para melhor entendimento). 
+	
+	Quando precisamos obter um valor de uma variavel privada, utilizamos o metodo 'get' para retornar o valor de tal variavel.
+	Quando precisamos atribuir um valor a uma variavel privada, utilizamos o metodo 'set' para definir o valor de tal variavel.
+	
+	Nao ha um metodo get e set para isso. Mas, para facilitar no entendimento do programa de modo geral, utilizamos getNomeDaVariavel() para
+	se obter um valor, e setNomeDaVariavel() para definir um valor.
+	Metodos que obtem valores de variaveis privadas (get) nao contem parametros e retornam o valor da variavel, que deve ser o mesmo tipo de retorno do metodo.
+	Metodos que definem valores (set) nao retornam nada e contem um parametro (basicamente), e o argumento passado a esse parametro sera atribuido a variavel
+	privada de tipo correspondente.
+	
+	ex.:
+		//variaveis privadas
+		private int number;
+		private String str;
+		
+		//metodos get e set para number
+		public int getNumber() {
+		     return number;
+		};
+		
+		public void setNumber(int value) {
+		     number = value;
+		}
+		
+		//metodos get e set para str
+		public String getString() {
+		     return str;
+		};
+		
+		public void setString(String stringValue) {
+		     str = stringValue;
+		};
+		
+	NOTA: Nao e obrigatorio o uso da nomenclatura get e set antes do nome do metodo que obtem ou define algo. Mas e recomendavel, 
+	      por boas praticas de programacao, para que seja mais facil a legibilidade de um metodo.
+	      Seria muito mais facil ler getNumber, e entender que aquele metodo obtem um numero, do que numberStorage, que da a entender que 
+	      aquele metodo ira armazenar um numero ou que um numero pode ser armazenado nele ou que ele chama outro metodo que armazena numeros...
+	      Sao muitas ambiguidades.
+	
+
+Explicacao sobre configuracao de tipos de uma variavel:
+
+	todas as variaveis devem ter um tipo. Podemos utilizar um tipo primitivo de dados (int, float, double...), ou tipos de referencia
+	(String, arrays ou algum objeto instanciado).
+
+Nota: As regras de convencao citadas nos fundamentos da linguagem ainda prevalecem.
+
+
+METODOS
+
+Resumo sobre definicao de metodos:
+
+	De forma resumida para que um metodo funcione, os unicos elementos necessarios em uma declaracao de metodo sao o tipo de retorno do 
+	metodo, o nome, um par de parenteses e o corpo do metodo entre colchetes {}.
+	
+	De forma mais completa e geral, as declaracoes de metodo contem seis componentes, em ordem:
+	
+	1 - Zero ou mais modificadores, como public, private... dentre outros que sera discutido mais tarde;
+	2 - O tipo de retorno - o tipo de dados do valor retornado pelo metodo ou void se nao retornar nada;
+	3 - O nome do metodo - as regras de convencao de nomenclaturas para metodos sao as mesmas de nomes de campos, mas com algumas diferencas;
+	4 - Uma lista de parametros entre os parenteses - Cada parametro deve ser delimitado por virgula, precedido pelo seu tipo e nome.
+	    Se nao houver parametros, os parenteses devem ficar vazios;
+	5 - Uma lista de excessoes - que sera discutido mais tarde; 
+	6 - O bloco de execucao de instrucoes do metodo - aqui vao declaracoes de variavels locais e o codigo do metodo;
+	
+	Modificadores, tipos de retorno e parametros serao posteriormente discutidos. Excessoes serao discutidas em outra secao.
+	
+	DEFINICAO: somente 2 dos componentes de um metodo compreendem sua assinatura. Sao eles: Nome do metodo e seus parametros. ex.:
+		   processData(String, String, int, int) ou processData();
+		   Podemos chamar metodos declarados na classe em outras partes da classe usando sua assinatura. Tambem podemos chamar 
+		   um metodo por sua assinatura a partir da instancia de uma classe, usando a referencia da instancia (objeto) com notacao de ponto
+		   e a assinatura do metodo.
+		   A assinatura de um metodo ou construtor e uma parte fundamental da composicao de um projeto Java.
+
+
+Resumo sobre Nomeacao de metodos:
+
+	A convencao define que nomes de metodos devem ser os mesmos de um campo, mas com algumas mudancas. Os nomes dos metodos devem ser um
+	verbo, em letras minusculas, ou um nome com varias palavras que comece com um verbo minusculo, seguido por adjetivos, substantivos, etc.
+	Em nomeacoes com varias palavras, a primeira letra de cada palavra subsequente deve ser capitalizada (ou maiuscula). Aqui estao alguns
+	exemplos:
+	
+		run;
+		runFast;
+		getBackground;
+		getFinalData;
+		compareTo;
+		setX;
+		isEmpty;
+	
+	Normalmente, um metodo possui um nome exclusivo dentro de uma classe. No entanto, metodos podem ter o mesmo nome, mas com os parametros
+	da assinatura diferentes. Isso e chamado sobrecarga de metodos.
+	
+	
+Resumo sobre sobrecarga de metodos
+	
+	Java suporta metodos sobrecarregados, e o compilador consegue distinguir metodos com nomes iguais, mas com parametros diferentes.
+	Ou seja, se a assinatura de um metodo conter uma quantidade e tipos diferentes de parametros, mas com nomes iguais, a sobrecarga de metodos
+	e empregada. 
+	As qualificacoes para se utilizar esse tipo de codificacao serao discutidas na secao 'heranca'.
+	
+	*NOTA: A assinatura de um metodo foi visto acima em 'DEFINICAO';
+	
+	Existe um porque para se utilizar sobrecarga de metodos em situacoes especificas. Uma delas e que voce nao precisa criar um novo nome 
+	para cada metodo que realiza a mesma funcao. Por exemplo, se tivermos uma classe que e focada no desenho da interface do usuario, podemos
+	utilizar um metodo draw. Mas, ao inves de criarmos diversos metodos draw (drawMenu, drawText, drawNewScreen), podemos fazer
+	uso da sobrecarga de metodos, criando varios metodos draw, mas com parametros diferentes. ex.:
+		
+		draw(Object button, Object inputFields) {};
+		draw(String text) {};
+		draw(Object screen, Object button, Object inputFields) {};
+	
+	Os metodos sobrecarregados sao diferenciados pelo numero e tipo de parametros. Poderiamos ter varios metodos draw() com 1 parametro
+	somente em cada um. Mas cada parametro de cada metodo draw() deveria ser de tipo diferente.
+	
+	O compilador nao pode executar, no caso de metodos de sobrecarga, metodos que disponham de assinaturas identicas, porque nao ha uma 
+	diferenciacao de um metodo para outro.
+	
+	O compilador nao considera o tipo de dados que um metodo retorna para sobrecarregar metodos, porque o retorno de dados nao faz parte
+	da assinatura de um metodo. Portanto, nao podemos declarar 2 metodos estritamente iguais, mas com retornos diferentes.
+	
+	Em resumo: metodos sobrecarregados utilizam-se da assinatura de um metodo como verificacao pelo compilador, independente de seu tipo 
+	de retorno ou codigo dentro do corpo do metodo.
+	
+NOTA: Metodos sobrecarregados devem ser usados com moderacao e em situacoes especificas, como tambem acontece com rotulos. Do contrario, o codigo
+      pode se tornar menos legivel e dificultar significativamente a manutencao. Caso necessite fazer o uso de tais praticas, documente 
+      detalhadamente o funcionamento de cada classe e metodos em javadocs e comentarios.
+      
+      
+      
+CONSTRUTORES DE CLASSES
+
+Resumo sobre construtores de classe:
+	
+	Uma classe pode conter ou nao construtores que sao invocados para criar objetos a partir do blueprint (escopo) da classe.
+	O objeto, entao, passa a ser um pacote, container ou algo do tipo que armazena toda a classe e suas definicoes, fazendo com que o 
+	uso de metodos da classe se torne simplificado, apenas utilizando aquele objeto instanciado.
+	
+	Os construtores podem ser analogamente comparados a uma fabrica. Seguindo a analogia no campo teorico, os construtores sao fabricas de objetos.
+	E como sabemos, uma fabrica nao cria apenas um produto, podendo criar varios produtos diferentes do mesmo tipo. O mesmo funcionamento tambem
+	pode ser aplicado aos nossos construtores.
+	
+	As declaracoes de construtores se assemelham com declaracoes de metodos - exceto pelo fato de usarem o nome da classe e nao terem um tipo
+	de retorno.
+	
+	O construtor da classe Bicycle (classe que esta sendo usada desde nossa primeira aula) pode receber ou nao parametros. 
+	ex.:
+		public Bicycle(int startCadence, int startSpeed, int startGear) {
+		     gear = startGear;
+		     cadence = startCadence;
+		     speed = startSpeed;		     		     
+		};
+		
+	O construtor da classe que recebe parametros e os atribui a variaveis de classe tem seu funcionamento similar ao metodo set, porem, 
+	sem a nomenclatura 'set' antes do nome do construtor e sem um retorno.
+	Para criarmos um novo objeto do projeto Bicycle chamado myBicycle, podemos, em outra classe, chamar o construtor desta classe com o 
+	operador new (operador que cria instancias de classes). ex.:
+	
+		Bicycle myBicycle = new Bicycle(30, 0, 8);
+		
+	O codigo acima 'new Bicycle(30, 0, 8)' cria espaco na memoria para o objeto myBicycle e inicializa todos os campos referente a classe 
+	que o objeto esta instanciando com os valores passados aos parametros do construtor da classe. 
+	Entao, os campos gear, cadence e speed do novo objeto instanciado myBicycle, recebem, respectivamente, os valores 30, 0 e 8.
+	Percebe-se que Bicycle(30, 0, 8) se assemelha muito a assinatura de um metodo. Podemos, entao, dizer que um construtor tem tambem uma assinatura.
+	
+	Poderiamos tambem criar mais de um construtor dentro de nossa classe Bicycle. Poderiamos ate mesmo, criar um construtor secundario sem 
+	argumentos
+		public Bicycle() {
+		    gear = 1;
+		    cadence = 10;
+		    speed = 0;
+		};
+	
+	Se convertermos o codigo Bicycle myBicycle = new Bicycle(30, 0, 8); para Bicycle myBicycle = new Bicycle();, teremos uma instancia de
+	Bicycle	sem argumentos. Poderiamos tambem ter mais de um objeto Bicycle, com ou sem argumentos, instanciados com valores diferentes 
+	usando o mesmo construtor ou mais de um, somente mudando o nome da instancia, como, por exemplo:
+	
+		Bicycle myBicycle1 = new Bicycle(30, 0, 8); 	//construtor bicycle com parametros
+		Bicycle myBicycle2 = new Bicycle(15, 3, 10);	//construtor bicycle com parametros
+		Bicycle myBicycle3 = new Bicycle();		//construtor bicycle sem parametros
+		Bicycle myBicycle4 = new Bicycle(22, 0, 15);	//construtor bicycle com parametros
+		Bicycle myBicycle5 = new Bicycle();		//construtor bicycle sem parametros
+		
+	Ambos os construtores podem ter o mesmo nome. Podem existir mais construtores de classe com o mesmo nome da classe, porque a plataforma 
+	Java, assim como acontece com os metodos de sobrecarga, consegue diferenciar os construtores com base no numero de argumentos na lista 
+	de parametros e em seus tipos (como se os construtores tivessem tambem uma assinatura, como ja dito anteriormente).
+	Nao pode haver 2 construtores com "assinaturas" iguais (com excessao do nome, com quantidade e tipo de parametros identicos), pois 
+	o compilador nao conseguiria diferenciar entre eles e isso resultaria em erro de tempo de compilacao (RuntimeException).
+	
+	Em resumo, da mesma forma que existem metodos de sobrecarga, existem tambem, logicamente, "construtores sobrecarregados".
+	
+	E possivel nao atribuir nenhum construtor a sua classe, mas deve-se ter cuidado ao tomar essa decisao. 
+	Como Java e uma linguagem orientada a objetos e voce nao declare um construtor (mesmo que sem argumentos) em sua classe e voce precise
+	instanciar um objeto dela, o compilador	fornece um construtor padrao e sem argumentos para sua classe para que, entao, possa ser criado 
+	um objeto que represente sua classe. Se a classe nao faz uso de heranca explicita, ou seja, uma superclasse declarada explicitamente 
+	na classe, a classe tera uma superclasse implicita de Object, que possui um construtor sem argumentos.
+	
+	Se for identificado o uso de heranca em sua classe, o compilador, alem de chamar um construtor padrao para sua classe, ele verificara
+	se sua superclasse tem um construtor padronizado, ou seja, sem argumentos. Se nao houver, o compilador ira reclamar sobre isso.
+	
+	Podemos, tambem, utilizar um construtor da superclasse em nossa classe filha. Como foi o caso do exemplo no inicio dos estudos dessa 
+	nova sessao no site dev.java, utilizando a classe MountainBike, que fez exatamente isso. Recaptulacao do exemplo abaixo:
+		
+		SUPERCLASSE BICYCLE:
+			
+			public class Bicycle {
+		
+	    			// the Bicycle class has
+				// three fields
+				public int cadence;
+	    			public int gear;
+	    			public int speed;
+		
+				// the Bicycle class has
+				// one constructor
+				public Bicycle(int startCadence, int startSpeed, int startGear) {
+					gear = startGear;
+					cadence = startCadence;
+					speed = startSpeed;
+				};
+				
+				//aqui vao metodos de manipulacao de membros da classe
+		  	};
+		  	
+		SUBCLASSE MOUTAINBIKE
+		
+			public class MountainBike extends Bicycle {
+        
+			    // the MountainBike subclass has
+			    // one field
+			    public int seatHeight;
+
+			    // the MountainBike subclass has
+			    // one constructor
+			    public MountainBike(int startHeight, int startCadence,
+						int startSpeed, int startGear) {
+				super(startCadence, startSpeed, startGear);
+				seatHeight = startHeight;
+			    };   
+			    
+			    //aqui vao metodos de manipulacao de novos membros da subclasse
+			};
+
+***	
+Entendendo melhor como foi utilizado o construtor no exemplo acima:
+
+	A superclasse Bicycle tem um construtor Bicycle, com 3 tipos de parametros int. A classe filha (subclasse) MountainBike, tambem tem um construtor,
+	e ele deve ter o mesmo tipo e quantidade de parametros que a superclasse emprega em seu construtor, alem de novos parametros para novas implementacoes.
+	O acionamento do construtor da superclasse deve ser passado no bloco de execucao do construtor da subclasse, utilizando a palavra chave super e um 
+	par de parenteses com os parametros da superclasse ( super(startCadence, startspeed, startGear); ).
+	A implementacao de atribuicao a novos campos da classe filha deve ocorrer abaixo da chamada dos parametros do construtor da superclasse.
+	
+	Ao instanciar um objeto da classe filha, invocando seu construtor, os valores passados como parametros irao ser processados dentro do bloco de 
+	execucao do construtor da classe filha.
+	Os valores passados aos parametros startCadence, startSpeed e startGear do construtor da classe filha (os mesmos da superclasse), serao atribuidos aos
+	parametros do construtor da superclasse na linha de codigo que contem o super(startCadence, startSpeed, startGear).
+	
+	O construtor da superclasse, por sua vez, ira criar um objeto para a classe filha com esses valores, enquanto a classe filha ira adicionar a 
+	esse objeto da superclasse a implementacao de sua nova variavel, nesse caso, seatHeight, de acordo com o valor do parametro recebido em startHeight.
+	
+	Em resumo: como o construtor da classe filha tem os mesmos parametros do construtor da classe pai, voce pode usar a palavra chave super(de superclasse),
+	para apontar para os parametros do construtor da classe pai e atribuir ao construtor da superclasse os valores que a subclasse recebe, fazendo com que 
+	haja uma divisao de tarefas, onde a classe pai cria um objeto para a classe filha com os devidos valores, e a classe filha so adicione as novas implementacoes
+	presentes no construtor dentro deste objeto. Entao, ao inves de chamar a classe pai e depois a filha e criar objetos distintos, podemos apenas criar 
+	um unico objeto com a implementacao de duas classes.	
+***	
+
+	Como se trata de heranca, entao isso sera discutido detalhadamente em breve.
+	
+	E, por fim, tambem podemos utilizar modificadores de acesso na declaracao de um construtor para controlar quais outras classes podem ter 
+	acesso a ele.
+	
+
+CHAMADA DE METODOS E CONSTRUTORES
+
+Resumo sobre passando informacoes para um metodo ou construtor:
+
+	Na declaracao de um metodo ou construtor, podemos fazer uso de parametros. Esses parametros recebem argumentos, que sao passados em tempo de execucao 
+	durante chamada de metodo ou construtor.
+	Para exemplificar melhor, digamos que o usuario chamou uma funcao de atribuicao. Digamos que essa funcao seja para mudar alguma configuracao 
+	pre estabelecida. O novo valor de configuracao que o usuario fornece ao programa sera um argumento. Assim que o usuario confirmar a mudanca,
+	sera chamado o metodo que vai performar essa funcao, e ele recebera o argumento que o usuario inseriu em seu parametro. O metodo usara aquele argumento
+	como base para alterar, por fim, a configuracao, de acordo com o que foi programado.
+	
+	Nota: parametros sao variaveis de declaracao de metodo e argumentos sao dados passados a esses parametros quando um metodo/construtor e invocado.
+	      quando um metodo/construtor e invocado, os argumentos (se houverem) devem corresponder aos parametros da declaracao em tipo de dado e ordem
+
+	      
+Resumo sobre tipos de parametros:
+
+	Pode-se ser usado qualquer tipo de parametro para metodos ou construtores. Desde tipos primitivos, ate tipos de referencia como Strings, Objects, Arrays, etc.
+	Podemos ter um metodo que retorna um objeto usando outro como parametro. ex.:
+	
+	public Polygon polygonFrom(Point[] corners) {
+    	// method body goes here
+	}
+	
+	No exemplo acima, o metodo ira criar um novo objeto Polygon, e o inicializa a partir de um array de objetos do tipo Point (passado como argumento).
+	Digamos que Point seja uma classe que contem coordenadas para desenho.
+	Para entendermos de forma mas simplista o que foi dito acima, o metodo vai retornar um objeto do tipo Polygon, que sera desenhado usando uma array de objetos do tipo Point.
+	Essa array de objetos do tipo Point, pode conter varias coordenadas que, desenhadas, forma um poligono.
+	No bloco de codigo, existirao metodos que vao desenhar um poligono usando as coordenadas de Point, ou iterar sobre cada elemento de Point, no caso, coordenadas x,y
+	e adicionar (.add) ao objeto Polygon, fazendo com que o objeto Polygon contenha o desenho de um poligono.
+	
+	
+Resumo sobre numeros arbitrarios de argumentos:
+	
+	sintaxe do parametro varArgs: public String searchValue (String... varargs) {// logicas do metodo};
+				      public int calculation(int a, int b, int... varargs) {// logicas do metodo};
+	
+	Em java, quando nao sabemos quantos argumentos um metodo ira receber, usamos um tipo especial de parametro chamado varargs. Essa construcao permite que um usuario ou outra 
+	parte do codigo forneca a esse metodo uma quantidade indefinida de argumentos do mesmo tipo.
+	Podemos passar 1 matriz como argumento de varArgs ou dados individuais do mesmo tipo e separados por virgula.
+	
+	Enquanto criar arrays em parametros de metodos seja um pouco mais custoso (a array deve conter ou receber valores, esses valores passados ao metodo e o metodo performar
+	a execucao desses valores), varArgs faz o mesmo trabalho, com a diferenca que pode receber tanto arrays, quanto uma lista de argumentos do mesmo tipo separados por virgula
+	Inclusive, o compilador, na hora de executar aquele metodo, trata varArgs como um array. Ou seja, para o compilador nada muda, mas para o dev se torna bem mais simples.
+	
+	Cada metodo so pode ter 1 parametro varArgs, e esse parametro varArgs deve ser colocado como ultimo parametro.
+	Caso o parametro varArgs seja colocado em qualquer posicao na lista de argumentos, um erro de compilacao sera lancado.
+	
+	Os parametros em varArgs, como dito antes, podem ser dinamicos (fornecidos pelo usuario em tempo de compilacao) ou nao (pre programados). 
+	
+	Como um exemplo de uso logico, podemos pedir ao usuario, ao menos, 3 parametros para realizar uma pesquisa num banco de dados.
+	se o usuario inserir somente 2, podemos invalidar o terceiro parametro com um dado nulo para que ele nao interfira na pesquisa dos 2 parametros que o usuario passou.
+	
+	
+
+Resumo sobre nome de parametros: 
+
+	O nome de um parametro deve ser exclusivo no escopo da estrutura de um metodo ou construtor. Nao deve haver mais de um parametro com nomes iguais na declaracao 
+	daquele metodo ou construtor. 
+	O nome desse parametro e usado no corpo do metodo/construtor para se referir ao argumento (valor) passado a ele.
+	Um parametro pode ter o mesmo nome que um dos membros de uma classe (campo). Caso isso aconteca, dizemos que o parametro sombreia o campo. Os campos de sombreamento
+	dificultam a leitura do codigo e so sao usados convencionalmente em metodos ou construtores que definem valores aos campos da classe.
+	
+	ex.:	
+		private int number;
+		
+		public void setNumber(int number) {
+			this.number = number;		
+		}
+		
+	no exemplo acima, temos uma variavel privada chamada number. Usamos um metodo para definir um valor para essa variavel privada. 
+	Esse metodo contem um tipo de dado inteiro e o mesmo nome do campo da classe. no corpo do metodo, fazemos a atribuicao do argumento passado ao metodo ao campo da classe 
+	utilizando a palavra chave 'this'.
+	
+	quando temos parametros que sombreiam campos e precisamos que o argumento passado a esse parametro sombreado seja atribuido ao campo da classe, usamos a palavra chave 'this'.
+	'this', em traducao, significa 'esse'. Entao, no escopo do exemplo, podemos dizer que o metodo atribui o argumento passado a number a 'esse' number.
+	
+	a palavra chave 'this' faz referencia a campos fora do metodo. primeiro chamamos 'this'. Em seguida, com notacao de ponto, chamamos o nome do campo que queremos referenciar
+	e daqui por diante podemos fazer algumas operacoes (seja ela de atribuicao, soma, multiplicacao, adicionar ou subtrair ao valor da variavel, etc).
+	Mais sobre a palavra chave 'this' sera explicado mais a frente...
+	
+	
+	
+Resumo sobre argumentos passados como tipo de dados primitivos:
+
+	Argumentos como int, double, char... de tipos primitivos, sao passados a metodos por valor. Isso significa que qualquer mudanca nos valores dos parametros existem apenas 
+	dentro do escopo do metodo ou construtor. Assim que o metodo retorna, ou seja, deixa de ser executado, os argumentos passados ao parametro desaparecem, e qualquer nova chamada
+	daquele metodo nao contara com valores antigos, sendo necessario inserir novos valores.
+	
+
+
+Resumo sobre passar argumentos por tipo de dados de referencia:
+
+	Parametros do tipo de dados de referencia tambem recebem argumentos por valor. O que significa que quando o metodo retorna, a referencia passada ainda faz referencia ao 
+	mesmo objeto de antes. Porem, os valores dos campos do objeto podem ser alterados no metodo, desde que tenham o nivel de acesso adequado para isso.
+	
+	por exemplo, vamos considerar um metodo em uma classe arbitraria que move objetos do tipo 'Circle':
+	
+	
+	public void moveCircle(Circle circle, int deltaX, int deltaY) {
+	    // code to move origin of circle to x+deltaX, y+deltaY
+	    circle.setX(circle.getX() + deltaX);
+	    circle.setY(circle.getY() + deltaY);
+        
+	    // code to assign a new reference to circle
+	    circle = new Circle(0, 0);
+	}
+	
+	vamos invocar o metodo com os seguintes dados:
+	moveCircle(myCircle, 23, 56);
+	
+	
+	dentro do metodo moveCircle, circle, inicialmente, se refere a myCircle. 
+	O metodo altera as coordenadas x e y do objeto ao qual 'circle' faz referencia (ou seja, myCircle) em 23 e 56, respectivamente.
+	Essas alteracoes persistirao no objeto assim que o metodo retornar.
+	Em seguida, e atribuido a 'circle' uma referencia de um novo objeto 'Circle' com as coordenadas 0 para x e y. 
+	Essa reatribuicao nao tem permanencia porque os valores foram passados como referencia e o metodo alterou os valores das variaveis do objeto.
+	Entao, se o metodo deixar de ser executado, o objeto myCircle tera sido alterado, enquanto a reatribuicao ira morrer junto com a execucao do metodo.
+	Na proxima chamada deste metodo, myCircle vai conter as alteracoes feitas anteriormente, enquanto o novo objeto Circle atribuido ao parametro pela ultima vez
+	nao vai existir, apenas ao fim do codigo, onde ele sera criado e apagado junto com o metodo novamente.
+	
+
+	
+
