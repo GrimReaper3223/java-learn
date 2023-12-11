@@ -295,28 +295,33 @@ Resumo sobre construtores de classe:
 ***	
 Entendendo melhor como foi utilizado o construtor no exemplo acima:
 
-	A superclasse Bicycle tem um construtor Bicycle, com 3 tipos de parametros int. A classe filha (subclasse) MountainBike, tambem tem um construtor,
-	e ele deve ter o mesmo tipo e quantidade de parametros que a superclasse emprega em seu construtor, alem de novos parametros para novas implementacoes.
-	O acionamento do construtor da superclasse deve ser passado no bloco de execucao do construtor da subclasse, utilizando a palavra chave super e um 
-	par de parenteses com os parametros da superclasse ( super(startCadence, startspeed, startGear); ).
-	A implementacao de atribuicao a novos campos da classe filha deve ocorrer abaixo da chamada dos parametros do construtor da superclasse.
+	Como visto, MountainBike (subclasse) herda de Bicycle (superclasse) todos os seus componentes.
+	Mesmo que a subclasse herde tambem o construtor da superclasse, ela deve ter tambem um construtor.
+	O construtor da subclasse sera focado em implementar novas funcionalidades, mas tambem deve realizar a chamada do construtor da superclasse e a ele fornecer os devidos argumentos de inicializacao.
+	No construtor da superclasse, temos 3 parametros do tipo inteiro, enquanto na subclasse, temos 4 parametros do tipo inteiro. 
+	O primeiro parametro da subclasse claramente aponta para uma implementacao, enquanto os 3 restantes claramente apontam para os 3 parametros do construtor da superclasse.
+	Nao e uma regra definirmos o mesmo nome dos parametros do construtor da superclasse nos parametros do construtor da subclasse, nem a ordem exata. Mas como uma boa pratica de programacao devemos 
+	faze-lo, para que tudo fique mais organizado no nosso codigo.
+		
+	No bloco de codigo do construtor da subclasse, devemos realizar a chamada do construtor da superclasse com a palavra chave super, seguido dos parametros que voce deseja passar como argumento ao 
+	construtor da superclasse.
+	Como dito antes, nao e a toa que o construtor da subclasse tem o mesmo nome e tipo de parametro que o construtor da superclasse. No exemplo acima, passamos para a chamada do construtor da superclasse
+	os parametros do construtor da subclasse com tipos, nomes e ordem iguais aos parametros do construtor da superclasse como argumento.
+	A chamada do construtor da superclasse deve sempre estar declarada antes das implementacoes. Ou seja, deve ser a primeira linha de codigo que o construtor da subclasse ira executar.
 	
-	Ao instanciar um objeto da classe filha, invocando seu construtor, os valores passados como parametros irao ser processados dentro do bloco de 
-	execucao do construtor da classe filha.
-	Os valores passados aos parametros startCadence, startSpeed e startGear do construtor da classe filha (os mesmos da superclasse), serao atribuidos aos
-	parametros do construtor da superclasse na linha de codigo que contem o super(startCadence, startSpeed, startGear).
-	
-	O construtor da superclasse, por sua vez, ira criar um objeto para a classe filha com esses valores, enquanto a classe filha ira adicionar a 
-	esse objeto da superclasse a implementacao de sua nova variavel, nesse caso, seatHeight, de acordo com o valor do parametro recebido em startHeight.
-	
-	Em resumo: como o construtor da classe filha tem os mesmos parametros do construtor da classe pai, voce pode usar a palavra chave super(de superclasse),
-	para apontar para os parametros do construtor da classe pai e atribuir ao construtor da superclasse os valores que a subclasse recebe, fazendo com que 
-	haja uma divisao de tarefas, onde a classe pai cria um objeto para a classe filha com os devidos valores, e a classe filha so adicione as novas implementacoes
-	presentes no construtor dentro deste objeto. Entao, ao inves de chamar a classe pai e depois a filha e criar objetos distintos, podemos apenas criar 
-	um unico objeto com a implementacao de duas classes.	
+	A execucao detalhada de como tudo funciona acontece da seguinte forma: 
+		-O compilador executa o construtor da superclasse, passando como argumento os parametros do construtor da subclasse que foi atribuido na chamada do construtor da superclasse usando a 
+		 palavra chave super. 
+		-Ao executar o construtor da superclasse com os devidos valores, como essa execucao e por meio de heranca, entao um objeto da classe Bike nao sera criado, mas sim seus campos inicializados
+		 e fornecidos ao construtor da subclasse. Ou seja, quem ira criar o objeto manipulavel sera a subclasse.
+		-Entao, a execucao do codigo volta para a subclasse para terminar de inicializar as novas implementacoes e criar o objeto.
+		
+	Resumindo: quando o construtor da subclasse e chamado, o construtor da superclasse e chamado com os devidos valores como argumento. Ele inicializa seus campos e metodos e a subclasse estende (ou 
+		   a superclasse entrega a subclasse, como quiser chamar) esses campos e metodos inicializados pela superclasse. Por fim, a execucao do programa volta ao construtor da subclasse para terminar
+		   de performar sobre as novas implementacoes e assim criar um unico objeto com todos os componentes da superclasse e da subclasse.
 ***	
 
-	Como se trata de heranca, entao isso sera discutido detalhadamente em breve.
+	Como se trata de heranca, entao isso sera discutido mais em breve...
 	
 	E, por fim, tambem podemos utilizar modificadores de acesso na declaracao de um construtor para controlar quais outras classes podem ter 
 	acesso a ele.
@@ -348,7 +353,7 @@ Resumo sobre tipos de parametros:
 	
 	No exemplo acima, o metodo ira criar um novo objeto Polygon, e o inicializa a partir de um array de objetos do tipo Point (passado como argumento).
 	Digamos que Point seja uma classe que contem coordenadas para desenho.
-	Para entendermos de forma mas simplista o que foi dito acima, o metodo vai retornar um objeto do tipo Polygon, que sera desenhado usando uma array de objetos do tipo Point.
+	Para entendermos de forma mas simplista o que foi dito acima, o metodo vai retornar um objeto do tipo Polygon, que sera desenhado dentro do metodo usando uma array de objetos do tipo Point.
 	Essa array de objetos do tipo Point, pode conter varias coordenadas que, desenhadas, forma um poligono.
 	No bloco de codigo, existirao metodos que vao desenhar um poligono usando as coordenadas de Point, ou iterar sobre cada elemento de Point, no caso, coordenadas x,y
 	e adicionar (.add) ao objeto Polygon, fazendo com que o objeto Polygon contenha o desenho de um poligono.
@@ -362,6 +367,8 @@ Resumo sobre numeros arbitrarios de argumentos:
 	Em java, quando nao sabemos quantos argumentos um metodo ira receber, usamos um tipo especial de parametro chamado varargs. Essa construcao permite que um usuario ou outra 
 	parte do codigo forneca a esse metodo uma quantidade indefinida de argumentos do mesmo tipo.
 	Podemos passar 1 matriz como argumento de varArgs ou dados individuais do mesmo tipo e separados por virgula.
+	
+	NOTA: O nome do parametro arbitratio nao precisa ser necessariamente varArgs. Aqui usamos varArgs para melhorar a explicacao.
 	
 	Enquanto criar arrays em parametros de metodos seja um pouco mais custoso (a array deve conter ou receber valores, esses valores passados ao metodo e o metodo performar
 	a execucao desses valores), varArgs faz o mesmo trabalho, com a diferenca que pode receber tanto arrays, quanto uma lista de argumentos do mesmo tipo separados por virgula
@@ -382,7 +389,7 @@ Resumo sobre nome de parametros:
 	O nome de um parametro deve ser exclusivo no escopo da estrutura de um metodo ou construtor. Nao deve haver mais de um parametro com nomes iguais na declaracao 
 	daquele metodo ou construtor. 
 	O nome desse parametro e usado no corpo do metodo/construtor para se referir ao argumento (valor) passado a ele.
-	Um parametro pode ter o mesmo nome que um dos membros de uma classe (campo). Caso isso aconteca, dizemos que o parametro sombreia o campo. Os campos de sombreamento
+	Um parametro pode ter o mesmo nome que um dos membros de uma classe (campo). Caso isso aconteca, dizemos que o parametro sombreia o campo. Os parametros de sombreamento 
 	dificultam a leitura do codigo e so sao usados convencionalmente em metodos ou construtores que definem valores aos campos da classe.
 	
 	ex.:	
@@ -444,5 +451,239 @@ Resumo sobre passar argumentos por tipo de dados de referencia:
 	nao vai existir, apenas ao fim do codigo, onde ele sera criado e apagado junto com o metodo novamente.
 	
 
-	
 
+CRIANDO E USANDO OBJETOS
+
+Resumo sobre compreensao de objetos:
+
+	Objetos em Java sao uma copia de toda a estrutura de uma classe empacotada em uma referencia a ela. Um aplicativo Java normalmente contem muitos desses objetos que formam uma interacao a partir 
+	da invocacao de metodos.
+	Atraves dessas interacoes de objetos, um programa pode desenhar uma GUI, processar informacoes, aguardar dados do usuario e processa-los, manipular um banco de dados, manipular redes, etc.
+	Depois que o objeto conclui seu trabalho para o qual foi chamado, ele tem seus recursos reciclados (memoria, processamento, armazenamento...) para que outros objetos tambem possam utilizar desses 
+	recursos, sem que isso se torne oneroso para o sistema.
+	
+	
+Resumo sobre criacao de objetos:
+
+	sintaxe da criacao de objetos: type name = new constructor();
+				       type name = new constructor(param1, param2, ..., ...);
+
+	Como sabemos, uma classe fornece o seu modelo para um objeto. Um objeto e uma copia completa de uma classe. Cada linha de codigo presente numa classe e fornecida a um objeto e esse objeto e atribuido
+	a uma variavel equivalente ao tipo da classe que esta sendo instanciada.
+	
+	O site dev.java nos fornece alguns exemplos:
+	
+		Point originOne = new Point(23, 94);
+		Rectangle rectOne = new Rectangle(originOne, 100, 200);
+		Rectangle rectTwo = new Rectangle(50, 100);
+
+***	Nem todos os exemplos foram copiados de la para nosso arquivo para que ele nao fique muito grande (muito grande mesmo). O recomendavel seria pesquisar na sessao correspondente ao que aqui esta
+	documentado, afim de achar algum exemplo solido. 
+	
+	De acordo com nosso exemplo acima, a primeira linha cria um objeto do tipo Point, chamado originOne, e a segunda e terceira linha criam objetos do tipo Rectangle, chamadas de rectOne e rectTwo, 
+	respectivamente. 
+	Cada uma dessas linhas compartilham as mesmas partes que tornam a instanciacao de um objeto possivel. Sao elas:
+	
+		-Declaracao: Inicialmente, devemos declarar uma variavel, e seu tipo deve ser correspondente ao objeto a ser armazenado nela. Essa variavel ira armazenar a instancia de uma classe;
+		-Instanciacao: A palavra-chave 'new' e um operador que cria uma nova instancia de uma classe;
+		-Inicializacao: O unico argumento pos-fixado do operador 'new' (posterior ao operador 'new'), e a assinatura do construtor da classe a ser instanciada. E chamado, entao, o construtor da
+				classe que corresponde,	de alguma forma, ao tipo de variavel que o objeto sera armazenado. Se ele tiver parametros, deve-se fornecer argumentos durante a inicializacao.
+				Se nao, os parenteses devem ficar vazios;
+	
+	
+	Declarando uma variavel para se referir a um objeto:
+	
+		Antes de iniciarmos esse resumo, a sintaxe da criacao de objetos foi abordada e faz alusao a uma compreensao geral sobre o processo basico da criacao de um objeto.
+		Ja vimos anteriormente tambem como podemos declarar uma variavel. 
+		Seja a variavel sendo um tipo primitivo ou por referencia, a declaracao de uma variavel faz com que o programa notifique ao compilador que a variavel declarada com tal nome recebera um 
+		valor em algum momento do codigo, e que, para isso, o compilador reserve um espaco na memoria para ela.
+		
+		Podemos declarar uma variavel em uma linha, sem nenhum valor. Pode ser tanto uma variavel de tipo de referencia ou primitiva (exceto variaveis locais, onde precisa de um valor para ser
+		inicializada).
+		Podemos nao atribuir um valor a uma variavel de tipo primitivo, mas devemos fazer isso com uma variavel de tipo de referencia. Nos podemos declarar um espaco na memoria para aquela 
+		variavel de tipo de referencia, mas em algum momento do codigo, devemos atribuir um valor a ela no codigo.
+		Antes de iniciarmos nosso programa, tudo deve estar definido. Caso contrario, o compilador ira entender que ha espacos nunca inicializados na memoria e isso retornara um erro.		
+		
+		Um tipo de referencia declarado nao garante que um objeto seja criado. Isso so se torna possivel com o operador 'new'. Uma variavel de referencia neste estado nao faz referencia a objeto
+		algum, pois a ela nao foi atribuida nenhuma instancia.
+	
+	
+	Instanciando uma classe:
+	
+		O operador 'new' e responsavel por alocar espaco na memoria para criar um objeto chamando o construtor dele, e retornar a referencia a esse espaco a uma variavel do tipo apropriado ao 
+		do objeto.
+		
+		NOTA: A frase "instanciar uma classe" significa a mesma coisa que "criar um objeto". Ao criar um objeto, estamos criando uma "instancia" daquela classe. Logo, estamos "instanciando" uma 
+		      classe. Uma instancia pode ser compreendida como um segundo objeto do mesmo tipo do primeiro sendo executado na memoria. Como exemplo pratico, podemos citar as varias instancias do 
+		      terminal linux que abrimos assim que ligamos o computador. Cada instancia utiliza os mesmos recursos do sistema (funcionamento identico a classes em Java) e cada uma dela pode
+		      desempenhar uma tarefa diferente: uma para atualizar o sistema, outra para acessar arquivos, outra para abrir programas, etc.
+		
+		Como dito anteriormente, de forma mais geral, tudo o que existe numa classe e fornecido a um objeto, e esse objeto e atribuido a uma variavel de tipo equivalente ao da classe instanciada.
+		Isso e feito com o operador 'new', que retorna a referencia na memoria do objeto criado daquela classe para uma variavel de tipo equivalente da classe que o objeto instancia.
+		
+		A referencia retornada pelo operador 'new' nao precisa necessariamente ser atribuida a uma variavel de tipo equivalente ao objeto. Podemos atribui-lo diretamente a uma expressao 
+		(ou variavel de tipo primitivo). Vamos utilizar nosso exemplo anterior para ilustrar melhor o que foi dito:
+		
+			Point originOne = new Point(23, 94); // originOne e uma variavel de tipo equivalente (Point) a classe que sera instanciada (Point).
+			
+			Point originOne;		     // originOne e uma variavel do tipo Point, que aguarda uma atribuicao a ela de um objeto do tipo equivalente a ela (Point).
+			originOne = new Point(23, 94);	     // Chamamos originOne para instanciarmos e inicializarmos um objeto e atribuir o processo a essa variavel, fazendo dela uma referencia da classe.
+			
+			int height = new Rectangle().getHeight();  //Aqui chamamos o metodo getHeight() para obter a altura do retangulo. Geralmente usamos metodos para obter valores quando um campo e
+								   //privado. como o valor retorna um int, entao podemos armazena-lo na variavel 'height'.
+								   
+			int height = new Rectangle().Height;	   //Aqui obtemos o valor da variavel Height de retangulo de forma direta. Geralmente podemos fazer dessa forma quando um metodo nao e private.
+								   //Como o valor retornado e um int, podemos armazena-lo na variavel height.
+		
+		Em ambos os casos do tipo 'int', assim que o objeto e criado, os valores dos campos sao imediatamente retornados a variavel 'height'.
+		Assim que o objeto e criado para retornar um valor, como nos casos 'int', a referencia a esses objetos dentro da variavel 'height' e perdida, porque o programa nunca armazenou a referencia 
+		em uma variavel de tipo equivalente. O objeto nao referenciado tem seus recursos liberados ao fim de sua execucao, e esses recursos sao reciclaveis pela JVM.
+		
+		No caso dos campos do tipo 'int', como eles nao sao estaticos, o compilador nao ira armazenar a informacao na memoria para uso em outras partes do codigo, fazendo com que a referencia ao 
+		objeto morra e seja reciclada pela JVM, e toda vez fosse criado um novo objeto e chamado o valor da variavel de acordo com o uso das variaveis int. Caso fossem estaticas, teriamos uma
+		referencia ativa na memoria. Qualquer valor retornado perduraria durante a execucao do programa para uso em outros locais do codigo.
+		
+		
+	Inicializando um objeto:
+	
+		Aqui temos um exemplo da classe Point (por ser um exemplo pequeno, e viavel documenta-lo aqui):
+
+		    public class Point {
+		    	public int x = 0;
+		    	public int y = 0;
+		    	
+		    	//constructor
+		    	public Point(int a, int b) {
+				x = a;
+				y = b;
+		    	}
+		   }
+		   
+		A classe Point tem somente um construtor inteiro. Esse construtor recebe 2 argumentos inteiros (a, b), e atribui esses argumentos as variaveis x e y, respectivamente.
+		Podemos chamar a classe Point com os seguintes dados:
+		
+		Point originOne = new Point(23, 94);
+		
+		O resultado do codigo acima tem uma ilustracao visual interessante, mas que nao consigo carregar a imagem aqui. Tentarei exemplificar de outra maneira:
+		
+			originOne	     Point Class
+			    |			  |
+			    |	  	  ------------------
+			    |		  |		   |
+			   ---		  |	x = 23;	   |
+			   |o| ---------> |	y = 94;	   |
+			   ---		  |		   |
+					  ------------------
+					  
+		Na representacao acima, temos originOne, o objeto instanciado representado por um ponto dentro de uma caixinha. E, ao lado, uma caixa maior que simboliza a classe Point, do qual originOne
+		e uma instancia, contendo os valores passados como argumento do construtor da classe.
+		
+		Temos tambem a classe Rectangle que contem 4 construtores. Obviamente, pelo tamanho do codigo fonte de exemplo, e inviavel documenta-lo aqui.
+		Nessa classe, temos 3 variaveis: 2 inteiras (width e height) e uma de referencia do tipo Point (origin). todas elas sao public, nao oferencendo nenhum tipo de encapsulamento.
+		
+		Cada um dos 4 construtores da classe nos permite fornecer valores iniciais para origin, width e height, usando tipos primitivos e de referencia nos parametros.
+		Como dito anteriormente em outro resumo, cada classe pode ter mais de um construtor, mas cada um deles deve ter uma assinatura diferente.
+		Temos a chamada de um dos construtores e podemos atribuir isso a nosso exemplo do que foi dito na linha acima desta:
+		
+			Rectangle rectOne = new Rectangle(originOne, 100, 200);
+			
+		Quando o compilador encontra o codigo acima, ele entende que queremos chamar o construtor da classe que tem como parametro um objeto Point e dois tipos inteiros.
+		Entao o compilador chama o construtor correspondente que inicializa origin com o argumento passado, no caso o objeto originOne, e define a largura e altura, respectivamente como 100 e 200.
+		
+		Agora existem duas referencias ao mesmo objeto Point: originOne e origin.
+		Um objeto pode ter multiplas referencias a ele. Tentarei ilustrar, como na figura exemplo, a dupla referencia a um objeto:
+			
+			originOne	     Point Class	  _________________
+			    |			  |		 |		   |
+			    |	  	  ------------------	 |	-----------|------	
+			    |		  |		   |	 |	|	   |	 |
+			   ---		  |	x = 23;	   |------	|  	  ---	 |
+			   |o| ---------> |	y = 94;	   |		|  origin |o|	 | <----- RectOne
+			   ---		  |		   |		|	  ---	 |
+					  ------------------		|  width = 100;	 |
+					  				|  height = 200; |
+					  				|		 |
+					  				------------------
+					  				
+		Agora vamos inspecionar esse codigo: Rectangle rectTwo = new Rectangle(50, 100);
+		
+		O codigo acima cria um objeto retangulo chamado rectTwo, que recebe 2 argumentos inteiros. Se inspecionarmos o codigo do construtor, veremos que ele cria um objeto do tipo Point, cujo valores
+		de x e y sao inicializados com 0.
+		
+		Agora vamos inspecionar esse codigo: Rectangle rect = new Rectangle();
+		
+		O codigo acima cria um objeto retangulo, usando um construtor que nao recebe argumentos.
+		
+		
+	Consideracoes finais desse resumo:
+		
+		Recap de outro resumo:
+			Todas as classes tem, ao menos, um construtor, como dito anteriormente.	Se a classe nao declarar nenhum explicitamente, o compilador o fara, declarando um construtor padrao. 
+			Esse construtor	padrao chama o construtor de Object, se nao for uma classe filha (heranca). Se a classe tem uma classe pai (heranca) e essa subclasse nao tem um construtor, 
+			o compilador vai checar se na classe pai tambem nao tem um construtor. Se nao, Object tem um, o compilador ira rejeitar o programa.
+					  
+
+
+Resumo sobre uso de objetos:
+
+	Fazendo referencia aos campos de um objeto:
+		
+		Os campos de um objeto podem ser acessados pelo seu nome, isso dentro da classe de um objeto. Os nomes nao podem ser ambiguos.
+		Poderiamos inserir uma instrucao dentro da classe Rectangle para imprimir os valores de width e height. width e height podem ser variaveis inteiras e isso pode ser facilmente chamado 
+		dentro da classe Rectangle.
+		
+		Para chamarmos os valores acima fora da classe, usamos a referencia ou expressao do objeto, seguida pelo operador de ponto intermediario (.), seguido do nome do campo simples.
+		Aqui esta a sintaxe: 
+			objectReference.fieldName;
+		
+		Tentar imprimir tais valores sem a chamada do objeto antes do operador de ponto, apenas chamando o nome da variavel do objeto resulta em erro de compilacao, pois as variaveis que voce esta
+		chamando existe apenas dentro do objeto.
+		
+		Independente de quantas instancias o mesmo construtor de uma classe tenha criado, cada uma delas terao valores exclusivos. Ou seja, cada objeto tera os mesmos elementos de uma classe 
+		instanciada, mas com valores diferentes ou padronizados (dependendo do que se queira fazer).
+		Se acessarmos os valores dos campos do objeto 1, depois do objeto 2, depois 3... veremos que eles terao valores personalizados, ou valores de inicializacao padrao, mas que podem ser alterados
+		por metodos ou atribuicoes simples.
+		A referencia de uso e acesso nao e da classe, mas sim do objeto em si. Mudar o valor de uma variavel de um objeto, nao impactara os valores daquela variavel em outros objetos.
+		
+		
+	Chamando os metodos de um Objeto:
+	
+		Para chamar metodos de objetos, usamos a assinatura do metodo anexada a referencia do objeto, com um operador de ponto intermediario (.). Alem disso, se houver parametros configurados a esse
+		metodo, deve-se fornecer argumentos. Caso contrario, os parenteses devem estar vazios.
+		
+		Para metodos que exibem valores ao usuario que estao dentro de um objeto, podemos chamar o objeto apontando a esse metodo em uma saida padrao (System.out), por exemplo.
+		E para metodos que alteram valores, isso pode ser chamado em qualquer lugar do codigo (seria mais coerente que o metodo set nao fosse chamado numa saida padrao, pois nao ha o que mostrar ao
+		usuario).
+		
+		E, ressaltando novamente, podemos utilizar uma variavel de referencia para armazenar um objeto ou um dado que ele retorna, mas tambem podemos utilizar uma expressao que retorne aquele objeto
+		ou dado que ele retorna. O operador 'new' retorna uma referencia de um objeto para a variavel de referencia ou expressao que declaramos, para que possamos invocar metodos usando essa
+		referencia que armazena o objeto retornado pelo operador 'new'. 
+			Exemplo: 
+				new Rectangle(100, 50).getArea();
+				
+		A expressao new Rectangle(100, 50) retorna uma referencia da classe Rectangle, com argumentos inicializados a esse objeto em 100 e 50. Em seguida, usando notacao de ponto, podemos 
+		imediatamente obter a area desse objeto. Essa instancia de objeto com o retorno da area total pode ser armazenada em uma expressao de tipo primitivo equivalente ao que e retornado.
+		getArea() retorna um int, entao podemos criar uma variavel int e atribuir o codigo acima a ela.
+		Esse valor pode ser usado para tomar alguma decisao ou processar alguma outra parte do codigo que precise dela ou controlar um loop... isso vai variar de acordo com o que o planejamento 
+		daquela variavel ira determinar.
+
+
+		
+Resumo sobre o coletor de lixo (Garbage Collector):
+
+	Algumas linguagens de programacao obrigam que voce destrua um objeto criado na memoria para que os recursos possam ser reaproveitados, o que pode ser tedioso e altamente suscetivel a erros, alem de 
+	tirar o enfoque do desenvolvimento de resolucao de problemas, desenvolvimento de novas funcionalidades e aprimoramentos das funcionalidades existentes em um projeto.
+	Em Java, podemos criar quantos objetos quisermos (a unica limitacao seria o hardware e o OS). A JRE (Java Runtime Environment) tem a capacidade de destruir objetos quando determina que eles nao estao
+	mais para ser utilizados, liberando recursos do sistema para que outros objetos possam performar, sem que isso se torne oneroso a maquina ou ao sistema. Isso se chama coleta de lixo 
+	(ou garbage collector).
+	
+	Um objeto e elegivel para reciclagem quando nao existem mais referencias aquele objeto. As referencias mantidads em uma variavel geralmente sao destruidas quando a variavel sai do escopo de execucao.
+	Ou podemos descartar um objeto atribuindo a ele o valor 'null'. Aqui devemos ter cautela, pois um objeto pode ter multiplas referencias a ele. Todas as referencias daquele objeto devem ser eliminadas
+	antes que aquele objeto possa ser reciclado. Do contrario, podem ocorrer erros ao decorrer da execucao do projeto.
+	
+	A JRE possui um coletor de lixo que, periodicamente, realiza a eliminacao de objetos que nao estao mais sendo referenciados para liberar memoria.
+	A JRE realiza essa funcao no momento certo, baseado em criterios internos da linguagem.
+		
+		
+
+	
